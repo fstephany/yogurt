@@ -1,5 +1,15 @@
 # Yogurt, a Pharo toolchain installer
 
+## Development
+
+Yogurt uses a README-driven development. We write the documentation first and 
+then implement the internal.
+
+**IN DEVELOPMENT**, I'm learning Rust through this project. This is still an 
+early stage :p
+
+## Description
+
 Yogurt manages your Pharo VMs and images. Its interface is heavily inspired by
 [rbenv](https://github.com/rbenv/rbenv) and [rustup](https://www.rustup.rs/). It's 
 a standalone binary without any external dependencies (i.e., it's super easy to install).
@@ -53,8 +63,4 @@ on disk is as followed:
     |  |  |- // TO BE DEFINED
     |- pharovm-version // stores the current global VM to use
 
-## Development
-
-Yogurt uses a README-driven development. We write the documentation first and 
-then implement the internal.
 
