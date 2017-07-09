@@ -1,0 +1,6 @@
+[package]
+name = "Yogurt"
+version = "0.1.0"
+authors = ["Francois Stephany <francois@tamere.eu>"]
+
+[dependencies]
