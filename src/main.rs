@@ -1,10 +1,14 @@
+extern crate clap;
 extern crate reqwest;
 
 use std::env;
+use std::process::Command;
 use std::error::Error;
 use std::fs;
 use std::io::Read;
 use std::path::*;
+
+use clap::{App, Arg, SubCommand};
 
 enum Bitness {
     B32,
@@ -107,4 +111,33 @@ fn main() {
     for vm in remote_vms {
         println!("- {}", vm.name);
     }
+
+    let versionString = "0.1.0";
+
+    clap::App::new("Yogurt")
+        .version(versionString)
+        .about("The Pharo toolchain installer")
+
+        // VM commands
+        .subcommand(SubCommand::with_name("vm")
+            .about("VM related features")
+            .subcommand(SubCommand::with_name("list")
+                .about("list installed VMs"))
+            .subcommand(SubCommand::with_name("install")
+                .about("install a VM")
+                .arg(Arg::with_name("version")
+                    .help("The version to install"))))
+
+        // Image commands
+        .subcommand(SubCommand::with_name("image")
+            .about("Image related features"))
+        
+        
+        .get_matches();
+
+
+    // Command::new("/home/fstephany/.yogurt/vms/20170708/bin/pharo")
+    //         .arg("blop")
+    //         .spawn()
+    //         .expect("Could not start pharo");
 }

@@ -1,7 +1,8 @@
 [package]
-name = "Yogurt"
+name = "yogurt"
 version = "0.1.0"
 authors = ["Francois Stephany <francois@tamere.eu>"]
 
 [dependencies]
+clap = "2.26.0"
 reqwest = "0.7.3"

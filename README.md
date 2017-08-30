@@ -33,14 +33,14 @@ then implement the internal.
     # List all the installed VMs 
     $ yogurt vm list
 
-    # List all the downloaded images
-    $ yogurt images list
-
     # List all the available VMs
     $ yogurt vm install
 
     # Install a VM (download it)
     $ yogurt vm install  2017.07.09
+
+    # List all the downloaded images
+    $ yogurt images list
 
     # Install an image
     $ yogurt image install 64-60507
@@ -73,5 +73,6 @@ on disk is as followed:
     |  |- workspace/
     |  |  |- // TO BE DEFINED
     |- pharovm-version // stores the current global VM to use
+    |- pharoimage-version
 
 
