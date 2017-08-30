@@ -1,10 +1,5 @@
 # Yogurt, a Pharo toolchain installer
 
-## Development
-
-Yogurt uses a README-driven development. We write the documentation first and 
-then implement the internal.
-
 **IN DEVELOPMENT**, I'm learning Rust through this project. This is still an 
 early stage :p
 
@@ -16,6 +11,15 @@ a standalone binary without any external dependencies (i.e., it's super easy to 
 
 Currently, Yogurt only works with 64bits VMS and images (that might change in the 
 future).
+
+### License
+
+MIT License
+
+## Development
+
+Yogurt uses a README-driven development. We write the documentation first and 
+then implement the internal.
 
 ## Usage
 

@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["Francois Stephany <francois@tamere.eu>"]
 
 [dependencies]
+reqwest = "0.7.3"

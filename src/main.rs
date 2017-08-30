@@ -1,7 +1,10 @@
-use std::env;
-use std::fs;
-use std::path::*;
+extern crate reqwest;
 
+use std::env;
+use std::error::Error;
+use std::fs;
+use std::io::Read;
+use std::path::*;
 
 enum Bitness {
     B32,
@@ -47,6 +50,7 @@ fn create_dirs_if_necessary() {
     fs::create_dir_all(sources_dir()).expect("Could not create sources directory. Abort");
 }
 
+/// Returns all the VMs stored on disk.
 fn available_vms() -> Vec<Vm> {
     let mut vms = Vec::new();
     let dirs_to_scan = fs::read_dir(vms_dir()).unwrap();
@@ -63,6 +67,27 @@ fn available_vms() -> Vec<Vm> {
     return vms
 }
 
+/// Fetches all the VMs stored on the server for a given architecture
+fn fetch_vms(arch: &str) -> Vec<Vm> {
+    return Vec::new();
+}
+
+fn fetch_remote_vms() -> Result<Vec<Vm>, Box<Error>> {
+    let vms_linux_x86_64_url = "https://yogurttest.blob.core.windows.net/vms-linux-x86-64/vm-list.txt";
+    let mut resp = reqwest::get(vms_linux_x86_64_url)?;
+    assert!(resp.status().is_success());
+
+    let mut content = String::new();
+    resp.read_to_string(&mut content);
+
+    let vms = content
+        .lines()
+        .map(|line| Vm{name: String::from(line), bitness: Bitness::B64})
+        .collect();
+
+    return Ok(vms)
+}
+
 fn print_available_vms() {
     println!("Available VMs:");
     for vm in available_vms() {
@@ -73,4 +98,13 @@ fn print_available_vms() {
 fn main() {
     create_dirs_if_necessary();
     print_available_vms();
+    
+    let remote_vms = match fetch_remote_vms() {
+        Ok(vms) => vms,
+        Err(err) => Vec::new()
+    };
+
+    for vm in remote_vms {
+        println!("- {}", vm.name);
+    }
 }
