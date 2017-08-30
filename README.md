@@ -5,9 +5,16 @@ early stage :p
 
 ## Description
 
-Yogurt manages your Pharo VMs and images. Its interface is heavily inspired by
+Yogurt streamlines the usage of Pharo by:
+
+- managing your Pharo VMs and images. Its interface is heavily inspired by
 [rbenv](https://github.com/rbenv/rbenv) and [rustup](https://www.rustup.rs/). It's 
 a standalone binary without any external dependencies (i.e., it's super easy to install).
+- providing a canonical way to create Pharo projects. Yogurt provides a way to structure
+a project with sensible defaults; users don't need to spend too much effort to 
+know how to get started. This is inspired by 
+[create-react-app](https://github.com/facebookincubator/create-react-app), a tool
+that makes it easy to get started with [React](https://facebook.github.io/react/).
 
 Currently, Yogurt only works with 64bits VMS and images (that might change in the 
 future).
