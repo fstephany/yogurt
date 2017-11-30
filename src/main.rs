@@ -114,7 +114,7 @@ fn main() {
 
     let versionString = "0.1.0";
 
-    clap::App::new("Yogurt")
+    let matches = clap::App::new("Yogurt")
         .version(versionString)
         .about("The Pharo toolchain installer")
 
@@ -123,6 +123,7 @@ fn main() {
             .about("VM related features")
             .subcommand(SubCommand::with_name("list")
                 .about("list installed VMs"))
+
             .subcommand(SubCommand::with_name("install")
                 .about("install a VM")
                 .arg(Arg::with_name("version")
@@ -132,9 +133,10 @@ fn main() {
         .subcommand(SubCommand::with_name("image")
             .about("Image related features"))
         
-        
+        // Params processing
         .get_matches();
 
+    matches.
 
     // Command::new("/home/fstephany/.yogurt/vms/20170708/bin/pharo")
     //         .arg("blop")
