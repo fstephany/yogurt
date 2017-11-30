@@ -1,3 +1,9 @@
 target
+
+# CLion
 CMakeLists.txt
 cmake-build-debug/*
+
+# IntelliJ
+.idea/workspace.xml 
+.idea/tasks.xml
