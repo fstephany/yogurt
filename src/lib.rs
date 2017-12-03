@@ -4,33 +4,34 @@ use std::path::PathBuf;
 use std::io::Read;
 use std::fs;
 
-enum Platform {
+pub enum Platform {
     MacOS,
-    Linux
-}
-
-struct Vm {
-    name: String,
-    platform: Platform
+    Linux,
+    Windows
 }
 
 /// Contains the necessary config information to fetch and store VMs and images
-struct Config {
-    platform: Platform,
-    base_url: String,
-    local_storage_dir: PathBuf
+pub struct Config<'a> {
+    pub platform: &'a Platform,
+    pub base_url: String,
+    pub local_storage_dir: PathBuf
+}
+
+pub struct Vm<'a> {
+    name: String,
+    platform: &'a Platform
 }
 
 /// Main data structure of Yogurt.
-struct Yogurt {
-    config: Config
+pub struct Yogurt<'a> {
+    config: Config<'a>
 }
 
-impl Yogurt {
+impl<'a> Yogurt<'a> {
 
     // Construction
 
-    fn new(config: Config) -> Yogurt {
+    pub fn new(config: Config) -> Yogurt {
         Yogurt { config: config }
     }
 
@@ -50,8 +51,9 @@ impl Yogurt {
 
     fn arch_dirname(&self) -> String {
         match self.config.platform {
-            Platform::MacOS => String::from("vms-macos-x86-64"),
-            Platform::Linux => String::from("vms-linux-x86-64")
+            &Platform::MacOS => String::from("vms-macos-x86-64"),
+            &Platform::Linux => String::from("vms-linux-x86-64"),
+            &Platform::Windows => String::from("vms-windows-x86-64"),
         }
     }
 
@@ -77,7 +79,7 @@ impl Yogurt {
             let dir_name = path.file_name().unwrap().to_str().unwrap();
 
             if path.is_dir() {
-                vms.push(Vm{ name: String::from(dir_name), platform: self.config.platform });
+                vms.push(Vm{ name: String::from(dir_name), platform: &self.config.platform });
             }
         }
 
@@ -99,7 +101,7 @@ impl Yogurt {
 
         return content
             .lines()
-            .map(|line| Vm{ name: String::from(line), platform: self.config.platform})
+            .map(|line| Vm{ name: String::from(line), platform: &self.config.platform})
             .collect();
     }
 

@@ -9,15 +9,16 @@ use std::path::*;
 
 use clap::{App, Arg, SubCommand};
 
-use yogurt::*;
+use yogurt::{Platform, Config, Yogurt};
 
 
-fn print_available_vms() {
-    println!("Available VMs:");
-    for vm in available_vms() {
-        println!("- {}", vm.name);
-    }
-}
+#[cfg(target_os = "macos")]
+static PLATFORM: Platform = Platform::MacOS;
+#[cfg(target_os = "linux")]
+static PLATFORM: Platform = Platform::Linux;
+#[cfg(target_os = "windows")]
+static PLATFORM: Platform = Platform::Windows;
+
 
 fn get_regular_local_storage() ->  Option<PathBuf> {
     match env::home_dir() {
@@ -33,7 +34,7 @@ fn get_dev_local_storage() -> Option<PathBuf> {
     match std::env::current_dir() {
         Ok(mut path) => {
             path.push("dev-storage");
-            path
+            Some(path)
         },
         Err(error) => None
     }
@@ -47,30 +48,19 @@ fn main() {
 
     let config = if is_dev_environment {
         Config {
-            base_url: "https://localhost:4040/",
+            platform: &PLATFORM,
+            base_url: String::from("https://localhost:4040/"),
             local_storage_dir: get_dev_local_storage().expect("Could not find current_dir() for local storage")
         }
     } else {
         Config {
-            base_url: "";
+            platform: &PLATFORM,
+            base_url: String::from(""),
             local_storage_dir: get_regular_local_storage().expect("Could not find local storage")
         }
     };
 
-
-    println!("DEV: {}", is_dev_env);
-
-    create_dirs_if_necessary(config);
-    print_available_vms();
-    
-    let remote_vms = match fetch_remote_vms() {
-        Ok(vms) => vms,
-        Err(err) => Vec::new()
-    };
-
-    for vm in remote_vms {
-        println!("- {}", vm.name);
-    }
+    println!("DEV: {}", is_dev_environment);
 
     let version_string = "0.1.0";
 
