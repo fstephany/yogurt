@@ -21,10 +21,6 @@ a tool that makes it easy to get started with
 Currently, Yogurt only works with 64bits VMS and images (that might
 change in the future).
 
-### License
-
-MIT License
-
 ## Development
 
 Yogurt uses a README-driven development. We write the documentation first and 
@@ -42,13 +38,25 @@ then implement the internal.
     $ yogurt vm install  2017.07.09
 
     # List all the downloaded images
-    $ yogurt images list
+    $ yogurt image list
 
     # Install an image
     $ yogurt image install 64-60507
 
     # Set the VM that will be used when the user types `pharo`
     $ yogurt vm global 64-2017.07.09
+    
+    # Will remove all the installed vms/images from your system.
+    # Note that Yogurt will ask to confirm.
+    $ yogurt vm reset
+    $ yogurt image reset
+    
+    # pass -f to force the deletion without any confirmation
+    $ yogurt vm reset -f
+    $ yogurt image reset -f
+    
+    
+Get all the available options by just typing `yogurt` without any arguments.
 
 ## Storage
 
@@ -77,8 +85,18 @@ on disk is as followed:
     |- pharovm-version // stores the current global VM to use
     |- pharoimage-version
 
+## Development tools
+
+When working on Yogurt itself, you don't want to hit the real API and fiddle with the 
+VMs/Images you have on your system. Pass the `DEV=1` environment variable when running
+Yogurt and it will use the `dev-storage` folder instead of the default `~/.yogurt`.
+
 
 ## Future
 
 - Define a config file so users can specify a personal repo and change the
   default local storage directory
+
+### License
+
+MIT License

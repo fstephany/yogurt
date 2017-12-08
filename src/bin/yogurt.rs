@@ -7,7 +7,7 @@ use std::process::Command;
 use std::error::Error;
 use std::path::*;
 
-use clap::{App, Arg, SubCommand};
+use clap::{App, Arg, SubCommand, AppSettings};
 
 use yogurt::{Platform, Config, Yogurt};
 
@@ -64,33 +64,55 @@ fn main() {
 
     let version_string = "0.1.0";
 
-
-    let matches = clap::App::new("Yogurt")
+    let app = clap::App::new("Yogurt")
+        .bin_name("yogurt")
+        .setting(AppSettings::ArgRequiredElseHelp)
         .version(version_string)
         .about("The Pharo toolchain installer")
 
         // VM commands
         .subcommand(SubCommand::with_name("vm")
             .about("VM related features")
+            .setting(AppSettings::ArgRequiredElseHelp)
             .subcommand(SubCommand::with_name("list")
-                .about("list installed VMs"))
+                .about("list VMs")
+                .arg(Arg::with_name("location")
+                // FIXME: This is where I am !
+                    .help("locally installed VMs or available remote ones")))))
 
             .subcommand(SubCommand::with_name("install")
+                .setting(AppSettings::ArgRequiredElseHelp)
                 .about("install a VM")
                 .arg(Arg::with_name("version")
                     .help("The version to install"))))
 
         // Image commands
         .subcommand(SubCommand::with_name("image")
-            .about("Image related features"))
-        
+            .about("Image related features"));
+
+        // Running commands
+        // Use the shims mechanism of RVM
+
         // Params processing
-        .get_matches();
+    let matches = app.get_matches();
+    if let Some(command) = matches.subcommand {
+        match command.name.as_ref() {
+            "vm" => {
+                // We can safely unwrap as Clap should have validated the input
+                match command.matches.subcommand.unwrap().name.as_ref() {
+                    "list" => listAllVMs(&yogurt),
+                    "install" 
+                }
+                
+            },
+            "image" => println!("Command for image"),
+            _ => println!("Unhandled subcommand")
+        }
+        
+    }
+}
 
-//    matches.
-
-    // Command::new("/home/fstephany/.yogurt/vms/20170708/bin/pharo")
-    //         .arg("blop")
-    //         .spawn()
-    //         .expect("Could not start pharo");
+fn handle_command(command: Box<SubCommand>) {
+    //let command_name = ;
+    println!("Command: {}", command.name)
 }
