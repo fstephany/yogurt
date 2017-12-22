@@ -77,8 +77,9 @@ fn main() {
             .subcommand(SubCommand::with_name("list")
                 .about("list VMs")
                 .arg(Arg::with_name("location")
-                // FIXME: This is where I am !
-                    .help("locally installed VMs or available remote ones")))))
+                    .help("locally installed VMs or available remote ones")
+                    .required(true)
+                    .groups(&["local", "remote"])))
 
             .subcommand(SubCommand::with_name("install")
                 .setting(AppSettings::ArgRequiredElseHelp)
@@ -100,13 +101,14 @@ fn main() {
             "vm" => {
                 // We can safely unwrap as Clap should have validated the input
                 match command.matches.subcommand.unwrap().name.as_ref() {
-                    "list" => listAllVMs(&yogurt),
-                    "install" 
+                    "list" => println!("list VMs"),
+                    "install" => println!("Install VM"),
+                    &_ => println!("Unhandled vm command")
                 }
                 
             },
             "image" => println!("Command for image"),
-            _ => println!("Unhandled subcommand")
+            &_ => println!("Unhandled subcommand")
         }
         
     }

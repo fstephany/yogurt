@@ -1,7 +1,7 @@
 # Yogurt, a Pharo toolchain installer
 
 **IN DEVELOPMENT**, I'm learning Rust through this project. Do not expect
-anything from this project.
+anything from it.
 
 ## Description
 
@@ -26,19 +26,32 @@ change in the future).
 Yogurt uses a README-driven development. We write the documentation first and 
 then implement the internal.
 
+When developing, you'll want to pass the `DEV=1` environment variable to the
+binary. Doing so will use the `` `pwd`/dev-storage`` directory instead of the 
+regular one (i.e., `$HOME/.yogurt`). It also won't attack the real webserver 
+but a mock one serving files located in `` `pwd`/dev-server``.
+
+We advise to use a [simple http-server](https://github.com/richardanaya/http-server)
+to serve the `dev-server` directory.
+
+
+    $ cargo run --bin dev_server
+    $ DEV=1 cargo run --bin yogurt vm list remote
+
+
 ## Usage
 
     # List all the installed VMs 
-    $ yogurt vm list
+    $ yogurt vm list local
 
-    # List all the available VMs
-    $ yogurt vm install
+    # List all the available VMs from the server
+    $ yogurt vm list remote
 
     # Install a VM (download it)
-    $ yogurt vm install  2017.07.09
+    $ yogurt vm install 2017.07.09
 
     # List all the downloaded images
-    $ yogurt image list
+    $ yogurt image list local
 
     # Install an image
     $ yogurt image install 64-60507
