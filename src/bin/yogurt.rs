@@ -94,23 +94,26 @@ fn main() {
         // Running commands
         // Use the shims mechanism of RVM
 
-        // Params processing
+    // Params processing
     let matches = app.get_matches();
-    if let Some(command) = matches.subcommand {
-        match command.name.as_ref() {
-            "vm" => {
-                // We can safely unwrap as Clap should have validated the input
-                match command.matches.subcommand.unwrap().name.as_ref() {
-                    "list" => println!("list VMs"),
-                    "install" => println!("Install VM"),
-                    &_ => println!("Unhandled vm command")
-                }
-                
-            },
-            "image" => println!("Command for image"),
-            &_ => println!("Unhandled subcommand")
-        }
-        
+
+
+    match matches.subcommand() {
+        ("vm", Some(sub_m)) => {
+            match sub_m.subcommand() {
+                ("list", Some(subsub_m)) => println!("vm list"),
+                ("install", Some(subsub_m)) => println!("install VM"),
+                _ => println!("Unknown vm command")
+            }
+        },
+        ("image", Some(sub_m)) => {
+            match sub_m.subcommand() {
+                ("list", Some(subsub_m)) => println!("vm list"),
+                ("install", Some(subsub_m)) => println!("install VM"),
+                _ => println!("Unknown image command")
+            }
+        },
+        _ => println!("unknown command")
     }
 }
 

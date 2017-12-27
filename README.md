@@ -21,23 +21,6 @@ a tool that makes it easy to get started with
 Currently, Yogurt only works with 64bits VMS and images (that might
 change in the future).
 
-## Development
-
-Yogurt uses a README-driven development. We write the documentation first and 
-then implement the internal.
-
-When developing, you'll want to pass the `DEV=1` environment variable to the
-binary. Doing so will use the `` `pwd`/dev-storage`` directory instead of the 
-regular one (i.e., `$HOME/.yogurt`). It also won't attack the real webserver 
-but a mock one serving files located in `` `pwd`/dev-server``.
-
-We advise to use a [simple http-server](https://github.com/richardanaya/http-server)
-to serve the `dev-server` directory.
-
-
-    $ cargo run --bin dev_server
-    $ DEV=1 cargo run --bin yogurt vm list remote
-
 
 ## Usage
 
@@ -71,7 +54,26 @@ to serve the `dev-server` directory.
     
 Get all the available options by just typing `yogurt` without any arguments.
 
-## Storage
+## Development
+
+Yogurt uses a README-driven development. We write the documentation first and 
+then implement the internal.
+
+When developing, you'll want to pass the `DEV=1` environment variable to the
+binary. Doing so will use the `` `pwd`/dev-storage`` directory instead of the 
+regular one (i.e., `$HOME/.yogurt`). It also won't attack the real webserver 
+but a mock one serving files located in `` `pwd`/dev-server``.
+
+We advise to use a [simple http-server](https://github.com/richardanaya/http-server)
+to serve the `dev-server` directory.
+
+
+    $ cargo run --bin dev_server
+    $ DEV=1 cargo run --bin yogurt vm list remote
+
+## Implementation details
+
+### Storage
 
 Yogurt stores all the VMs and images in the `$HOME/.yogurt/` directory. The structure
 on disk is as followed:
@@ -98,11 +100,33 @@ on disk is as followed:
     |- pharovm-version // stores the current global VM to use
     |- pharoimage-version
 
-## Development tools
+### Remote Storage
 
-When working on Yogurt itself, you don't want to hit the real API and fiddle with the 
-VMs/Images you have on your system. Pass the `DEV=1` environment variable when running
-Yogurt and it will use the `dev-storage` folder instead of the default `~/.yogurt`.
+The files listing the available VMs and images are stored on Azure by default. 
+Nothing prevents you to store them elsewhere as long as you serve them with HTTP.
+
+
+    /vms-linux-x86-64/
+    |- vm-list.txt
+    |- vm-24122017-01.zip
+    |- vm-28122017-01.zip
+    /images-64/
+    |- images-list.txt
+    |- pharo-60-01.zip
+    /sources/
+    |- PharoV60.sources
+    |- PharoV70.sources
+
+### Adding VMs and Images
+
+Files come from: 
+- http://files.pharo.org/get-files/
+- http://files.pharo.org/vm/pharo-spur64/
+
+VMs are stored with version numbers: `5.0-201712211450`.
+
+
+Prefix for Linux Spur 64: http://files.pharo.org/vm/pharo-spur64/linux
 
 
 ## Future
