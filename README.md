@@ -1,6 +1,6 @@
 # Yogurt, a Pharo toolchain installer
 
-**IN DEVELOPMENT**, I'm learning Rust through this project. Do not expect
+**DONT EXPECT ANYTHING**, I'm learning Rust through this project. Do not expect
 anything from this project.
 
 ## Description
