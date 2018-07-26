@@ -1,0 +1,3 @@
+2017-12-21-1450;;pharo-linux-x86_64threaded-201712211450-276a5ff.zip
+2017-11-26-2336;;pharo-linux-x86_64threaded-201711262336-8879e2e.zip
+2017-07-20-1942;6.1;/pharo-linux-x86_64threaded-201707201942-6a2c4f4.zip

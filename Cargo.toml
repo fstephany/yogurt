@@ -10,3 +10,8 @@ authors = ["Francois Stephany <francois@tamere.eu>"]
 [dependencies]
 clap = "2.28.0"
 reqwest = "0.8.1"
+
+# For dev server:
+iron = "0.6"
+staticfile = "0.5"
+mount = "0.4"
